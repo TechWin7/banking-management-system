@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-Bank - Modern Banking Solution</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">
+                    <img src="img/pngwing.com.png" alt="D-Bank Logo">
+                    <h1>D-Bank</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="#" onclick="showHome()">Home</a>
+                    <a href="#" onclick="showLogin()">Login</a>
+                    <a href="#" onclick="showRegister()">Open Account</a>
+                    <a href="#" onclick="showAdminLogin()">Admin</a>
+                    <a href="#" id="dashboardLink" style="display: none;" onclick="showDashboard()">Dashboard</a>
+                    <a href="#" id="logoutLink" style="display: none;" onclick="logout()">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div id="home">
+        <section class="hero-section">
+            <div class="container">
+                <h1>Welcome to D-Bank</h1>
+                <p>Your Trusted Banking Partner</p>
+                <button class="btn" onclick="showRegister()">Open Account Now</button>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Mobile Banking</h3>
+                    <p>Bank anywhere, anytime with our secure mobile banking</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Banking</h3>
+                    <p>Your security is our top priority</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Digital Payments</h3>
+                    <p>Fast and secure digital payment solutions</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="registerForm" class="form-container" style="display: none;">
+        <h2>Open New Account</h2>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="regName" placeholder="Enter your full name">
+        </div>
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="regDob">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="regEmail" placeholder="Enter your email">
+        </div>
+        <div class="form-group">
+            <label>Mobile Number</label>
+            <input type="tel" id="regMobile" placeholder="Enter your mobile number">
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" id="regAddress" placeholder="Enter your address">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="regPassword" placeholder="Create a password">
+        </div>
+        <div class="form-group">
+            <label>Initial Deposit (Min ₹1000)</label>
+            <input type="number" id="regDeposit" min="1000" placeholder="Enter initial deposit amount">
+        </div>
+        <button class="btn" onclick="register()">Open Account</button>
+        <p id="registerMessage"></p>
+    </div>
+
+    <div id="loginForm" class="form-container" style="display: none;">
+        <h2>Login to Your Account</h2>
+        <div class="form-group">
+            <label>Account Number</label>
+            <input type="text" id="loginAccountNumber" placeholder="Enter your account number">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+        </div>
+        <button class="btn" onclick="login()">Login</button>
+        <p id="loginMessage"></p>
+    </div>
+
+    <div id="adminLoginForm" class="form-container" style="display: none;">
+        <h2>Admin Login</h2>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="adminUsername" placeholder="Enter admin username">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter admin password">
+        </div>
+        <button class="btn" onclick="adminLogin()">Login</button>
+        <p id="adminLoginMessage"></p>
+    </div>
+
+    <div id="dashboard" class="dashboard">
+        <div class="container">
+            <h2>Welcome, <span id="userName"></span></h2>
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3>Account Details</h3>
+                    <p>Account Number: <span id="accountNumber"></span></p>
+                    <p>Balance: ₹<span id="balance"></span></p>
+                </div>
+                <div class="dashboard-card">
+                    <h3>Transfer Money</h3>
+                    <div class="form-group">
+                        <input type="text" id="transferAccount" placeholder="Recipient Account Number">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="transferAmount" placeholder="Amount">
+                    </div>
+                    <button class="btn" onclick="transferMoney()">Transfer</button>
+                    <p id="transferMessage"></p>
+                </div>
+            </div>
+            <div class="transaction-history">
+                <h3>Transaction History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminDashboard" class="dashboard" style="display: none;">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Admin Dashboard</h2>
+                <button class="btn" onclick="adminLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-users"></i> User Statistics</h3>
+                    <div id="userStats">
+                        <p>Total Users: <span id="totalUsers">0</span></p>
+                        <p>Active Users: <span id="activeUsers">0</span></p>
+                        <p>Total Balance: ₹<span id="totalBalance">0</span></p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h3><i class="fas fa-search"></i> Search Users</h3>
+                    <div class="form-group">
+                        <input type="text" id="searchUser" placeholder="Search by name or account number" class="search-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3><i class="fas fa-user-shield"></i> User Accounts Management</h3>
+                <div class="table-container">
+                    <table id="adminUserTable" class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Account Number</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="manageAccountForm" class="form-container" style="display: none;">
+                <div class="form-header">
+                    <h3><i class="fas fa-user-cog"></i> Manage Account</h3>
+                    <button class="btn-close" onclick="closeManageForm()">×</button>
+                </div>
+                
+                <div class="account-details">
+                    <p>Account: <span id="manageAccountNumberDisplay"></span></p>
+                    <p>Current Balance: ₹<span id="manageBalanceDisplay"></span></p>
+                </div>
+
+                <input type="hidden" id="manageAccountNumber">
+                <input type="hidden" id="manageBalance">
+                
+                <div class="form-grid">
+                    <div class="form-section">
+                        <h4><i class="fas fa-deposit"></i> Deposit</h4>
+                        <div class="form-group">
+                            <input type="number" id="adminDepositAmount" placeholder="Enter amount">
+                            <button class="btn btn-success" onclick="adminDeposit()">
+                                <i class="fas fa-plus"></i> Deposit
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4><i class="fas fa-money-bill-transfer"></i> Withdraw</h4>
+                        <div class="form-group">
+                            <input type="number" id="adminWithdrawAmount" placeholder="Enter amount">
+                            <button class="btn btn-warning" onclick="adminWithdraw()">
+                                <i class="fas fa-minus"></i> Withdraw
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-danger" onclick="deleteAccount(document.getElementById('manageAccountNumber').value)">
+                        <i class="fas fa-trash"></i> Delete Account
+                    </button>
+                    <button class="btn btn-status" id="toggleStatusBtn" onclick="toggleAccountStatus(document.getElementById('manageAccountNumber').value)">
+                        <i class="fas fa-toggle-on"></i> Toggle Status
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 Pradeep Kumar. All rights reserved.</p>
+            <a href="https://www.google.com/search?q=techWin7&rlz=1C1VDKB_enIN1131IN1131&oq=tech&gs_lcrp=EgZjaHJvbWUqBggBEEUYOzIGCAAQRRg5MgYIARBFGDsyBggCEEUYPDIGCAMQRRg8MgYIBBBFGDwyBggFEEUYQTIGCAYQRRhBMgYIBxBFGEHSAQg1MDI4ajBqNKgCALACAQ&sourceid=chrome&ie=UTF-8" target="_blank" class="instagram-link">
+                <i class="fab fa-instagram"></i> Follow us on Instagram
+            </a>
+        </div>
+    </footer>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
